@@ -11,7 +11,7 @@ on:
 
 jobs:
   product-metadata:
-    # Do not run for docs branches
+    # we skip generating the metadata for docs PRs, so it skips the builds
     if: |
       !startsWith(github.head_ref, 'docs/') &&
       !startsWith(github.head_ref, 'backport/docs/') &&
@@ -209,6 +209,10 @@ jobs:
     secrets: inherit
 
   completed-successfully:
+    # This is a required status check, so we conditionally skip it for docs
+    # branches and labels, so it reports the status as "skipped"(Success)
+    # allowing the docs PRs to be merged.
+    # Reference https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/troubleshooting-required-status-checks#handling-skipped-but-required-checks
     if: |
       !startsWith(github.head_ref, 'docs/') &&
       !startsWith(github.head_ref, 'backport/docs/') &&
