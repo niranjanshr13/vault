@@ -11,6 +11,11 @@ on:
 
 jobs:
   product-metadata:
+    # Do not run for docs branches
+    if: |
+      !startsWith(github.head_ref, 'docs/') &&
+      !startsWith(github.head_ref, 'backport/docs/') &&
+      !contains(github.event.pull_request.labels.*.name, 'docs')
     runs-on: ubuntu-latest
     outputs:
       build-date: ${{ steps.get-metadata.outputs.build-date }}
@@ -204,6 +209,10 @@ jobs:
     secrets: inherit
 
   completed-successfully:
+    if: |
+      !startsWith(github.head_ref, 'docs/') &&
+      !startsWith(github.head_ref, 'backport/docs/') &&
+      !contains(github.event.pull_request.labels.*.name, 'docs')
     runs-on: ubuntu-latest
     needs:
       - build-other
