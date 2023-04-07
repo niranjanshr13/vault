@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import EmberRouter from '@ember/routing/router';
 import config from 'vault/config/environment';
 
@@ -154,9 +159,7 @@ Router.map(function () {
         this.route('backend', { path: '/:backend' }, function () {
           this.mount('kmip');
           this.mount('kubernetes');
-          if (config.environment !== 'production') {
-            this.mount('pki');
-          }
+          this.mount('pki');
           this.route('index', { path: '/' });
           this.route('configuration');
           // because globs / params can't be empty,

@@ -1,12 +1,20 @@
-import PkiCertificateBaseModel from './certificate/base';
-import { FormField, FormFieldGroups } from 'vault/app-types';
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
 
-export default class PkiIssuerModel extends PkiCertificateBaseModel {
-  useOpenAPI(): boolean;
+import Model from '@ember-data/model';
+import { FormField, FormFieldGroups, ModelValidations } from 'vault/app-types';
+export default class PkiIssuerModel extends Model {
+  secretMountPath: class;
+  get useOpenAPI(): boolean;
+  get backend(): string;
+  get issuerRef(): string;
+  certificate: string;
   issuerId: string;
+  issuerName: string;
   keyId: string;
   uriSans: string;
-  issuerName: string;
   leafNotAfterBehavior: string;
   usage: string;
   manualChain: string;
@@ -18,12 +26,17 @@ export default class PkiIssuerModel extends PkiCertificateBaseModel {
   rotateInternal: any;
   rotateExisting: any;
   crossSignPath: any;
-  signIntermediate: any;  
+  signIntermediate: any;
   -------------------- **/
-  formFields: Array<FormField>;
-  formFieldGroups: FormFieldGroups;
+  pemBundle: string;
+  importedIssuers: string[];
+  importedKeys: string[];
+  formFields: FormField[];
+  formFieldGroups: FormFieldGroups[];
+  allFields: FormField[];
   get canRotateIssuer(): boolean;
   get canCrossSign(): boolean;
   get canSignIntermediate(): boolean;
   get canConfigure(): boolean;
+  validate(): ModelValidations;
 }

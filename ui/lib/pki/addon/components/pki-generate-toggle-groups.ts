@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
@@ -6,6 +11,7 @@ import PkiActionModel from 'vault/models/pki/action';
 
 interface Args {
   model: PkiActionModel;
+  groups: Map<[key: string], Array<string>> | null;
 }
 
 export default class PkiGenerateToggleGroupsComponent extends Component<Args> {
@@ -21,6 +27,7 @@ export default class PkiGenerateToggleGroupsComponent extends Component<Args> {
   }
 
   get groups() {
+    if (this.args.groups) return this.args.groups;
     const groups = {
       'Key parameters': this.keyParamFields,
       'Subject Alternative Name (SAN) Options': ['altNames', 'ipSans', 'uriSans', 'otherSans'],
@@ -36,7 +43,7 @@ export default class PkiGenerateToggleGroupsComponent extends Component<Args> {
     };
     // excludeCnFromSans and serialNumber are present in default fields for generate-csr -- only include for other types
     if (this.args.model.actionType !== 'generate-csr') {
-      groups['Subject Alternative Name (SAN) Options'].unshift('excludeCnFromSans', 'serialNumber');
+      groups['Subject Alternative Name (SAN) Options'].unshift('excludeCnFromSans', 'subjectSerialNumber');
     }
     return groups;
   }

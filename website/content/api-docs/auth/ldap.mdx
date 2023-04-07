@@ -96,6 +96,9 @@ This endpoint configures the LDAP auth method.
   up to the given size. This can be used to avoid hitting the LDAP server's
   maximum result size limit. If set to 0, the LDAP backend will not use the
   paged search control.
+- `dereference_aliases` `(string: never)` - When aliases should be dereferenced
+  on search operations. Accepted values are 'never', 'finding', 'searching',
+  'always'. Defaults to 'never'.
 
 @include 'tokenfields.mdx'
 
