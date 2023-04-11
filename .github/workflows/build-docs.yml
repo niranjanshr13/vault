@@ -1,0 +1,23 @@
+# Following the example in https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/troubleshooting-required-status-checks#example
+# We create this workflow with name "build" and job "completed-successfully", which will be run only for docs PRs
+# This workflow allows us to pass the required status check, which is skipped for docs changes in build.yml
+name: build
+
+on:
+  pull_request:
+    # we run this workflow only for docs PRs
+    paths:
+      - 'website/**'
+  push:
+    # we run this workflow only for docs PRs
+    paths:
+      - 'website/**'
+    branches:
+      - main
+      - release/**
+
+jobs:
+  completed-successfully:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Skipping test workflows for docs changes!"
